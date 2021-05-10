@@ -111,7 +111,7 @@ let default_config = {
     //任务列表界面关键字
     txt_task_list_ui_reg: "做任务赚金币",
     //简单浏览任务关键字
-    txt_simple_task_reg_str: "浏览1|逛1|浏览抽|浏览得能|逛聚划算|逛菜鸟|步数",
+    txt_simple_task_reg_str: "浏览1|逛1|浏览抽|浏览得能|逛聚划算|逛菜鸟|步数|浏览心",
     //简单任务跳过关键字
     txt_simple_skip_reg_str: "商品同款|逛好店|去天猫APP",
     //庄园小鸡任务关键字

@@ -85,6 +85,9 @@ function AntCreditsExecutor() {
                 toast_console('到时立即返回')
                 return true
             }
+            if (sec <= t_sec - 2 && textContains('下滑浏览商品').findOne(100)) {
+                swipe(device.width * 0.5, device.height * 0.7, device.width * 0.5, device.height * 0.5, 800)
+            }
         }
         toast_console('等待' + t_sec + 's返回');
         return true
@@ -273,7 +276,7 @@ function AntCreditsExecutor() {
             if (!btn_x) break
             btn_x.parent().click(); sleep(13000);
             if (config.is_pat_shop) {
-                btn_x = text('关注+10').findOne(800)
+                tn_x = textContains('+10').findOne(800)
                 if (btn_x) {
                     btn_click(btn_x.parent()); sleep(800)
                 }
@@ -299,10 +302,10 @@ function AntCreditsExecutor() {
     function dice_task() {
         toast_console('查看-淘宝人生掷骰子任务')
         if (!assure_click_task(input_value(config.txt_dice_task_reg_str))) return
-        console.hide(); sleep(12000);
+        console.hide(); sleep(13000);
         //去他大爷的神秘礼物
-        toast_console('掷骰子任务-查看是否有神秘礼物(QTM的神秘)', true)
-        cs_click(5, '#ffffff', 0.3, 0.1, 0.7, 0.5, true);
+        toast_console('掷骰子任务-查看是否有神秘礼物(QTM的神秘礼盒)', true)
+        cs_click(5, '#ffffff', 0.2, 0.1, 0.6, 0.6, true);
         //单击礼包
         toast_console('掷骰子任务-查看是否有礼包(QTM的礼包)', true)
         cs_click(3, '#fee998', 0.2, 0.2, 0.7, 0.8);
@@ -420,7 +423,7 @@ function AntCreditsExecutor() {
                 }
                 back(); btn_position_click(desc('继续退出').findOne(400))
                 btn_click(textMatches('残忍离开|回到淘宝').findOne(400))
-                if (obj.txt.indexOf('淘宝吃货') > -1) cs_click(1, '#ff4c55', 0.2, 0.2, 0.4, 0.4, true)
+                //if (obj.txt.indexOf('淘宝吃货') > -1) cs_click(1, '#ff4c55', 0.2, 0.2, 0.4, 0.4, true)
             }
             get_rewards(reward)
         }
@@ -557,10 +560,11 @@ function AntCreditsExecutor() {
     //支付宝芭芭农场
     function zhifubao_baba_farm_task() {
         toast_console('查看-支付宝芭芭农场任务')
-        if (!assure_click_task('支付宝芭芭农场')) return
-        //btn_position_click(textContains('支付宝芭芭农场').findOne(1000))
+        //if (!assure_click_task('支付宝芭芭农场')) return
+        btn_position_click(textContains('支付宝芭芭农场').findOne(1000))
         toast_console('等待农场主界面出现');
         btn_click(text('继续赚肥料').findOne(7000)); sleep(2000)
+        toast_console('领取肥料');
         cs_click(4, '#fed362', 0.55, 0.65, 0.45, 0.15); sleep(1500); //领取肥料
         btn_click(text('去施肥').findOne(1000)); sleep(500)
         if (cs_click(2, '#fed362', 0.1, 0.2, 0.1, 0.2, true)) {  //打开列表
@@ -583,8 +587,8 @@ function AntCreditsExecutor() {
 
     //芭芭农场中的好友林
     function friend_forest_task() {
-        toast_console('前往芭芭农场中的好友林'); sleep(2000)
-        btn_click(text('我知道啦').findOne(3000))
+        toast_console('前往芭芭农场中的好友林'); sleep(3000)
+        btn_click(textContains('我知道啦').findOne(3500))
         console.hide()
         cs_click(3, '#fed362', 0.01, 0.5, 0.2, 0.3); sleep(2000)// 打开好友林
         if (cs_click(3, '#b63223', 0.4, 0.1, 0.2, 0.3)) { //中心领取
