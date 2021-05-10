@@ -3,3 +3,5 @@
 *.log
 *.ign.js
 LockScreen.js
+/.vs
+/lib/oat/arm

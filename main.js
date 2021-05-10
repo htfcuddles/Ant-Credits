@@ -16,7 +16,7 @@ let callStateListener = !config.is_pro && config.enable_call_state_control ? sin
 // 用于代理图片资源，请勿移除 否则需要手动添加recycle代码
 let resourceMonitor = require('./lib/ResourceMonitor.js')(runtime, this)
 let unlocker = require('./lib/Unlock.js')
-let mainExecutor = require('./core/MainExecutor.js')
+let antCreditsExecutor = require('./core/AntCreditsExecutor.js')
 callStateListener.exitIfNotIdle()
 // 不管其他脚本是否在运行 清除任务队列 适合只使用蚂蚁森林的用户
 if (config.single_script) {
@@ -100,15 +100,18 @@ commonFunctions.autoSetUpBangOffset()
 /************************
  * 主程序
  ***********************/
-commonFunctions.showDialogAndWait(true)
-commonFunctions.listenDelayStart()
+function mainExec() {
+    commonFunctions.showDialogAndWait(true)
+    commonFunctions.listenDelayStart()
+    antCreditsExecutor.exec()
+}
 
 // 开发模式不包裹异常捕捉，方便查看错误信息
 if (config.develop_mode) {
-  mainExecutor.exec()
+    mainExec()
 } else {
   try {
-    mainExecutor.exec()
+      mainExec()
   } catch (e) {
     commonFunctions.setUpAutoStart(1)
     errorInfo('执行异常, 1分钟后重新开始' + e)

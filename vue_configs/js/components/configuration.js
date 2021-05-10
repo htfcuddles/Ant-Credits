@@ -112,7 +112,7 @@ Vue.component('sample-configs', function (resolve, reject) {
     template: '<div>\
       <van-divider content-position="left">锁屏相关</van-divider>\
       <van-cell-group>\
-        <van-field v-model="configs.password" label="锁屏密码" type="password" placeholder="请输入锁屏密码" input-align="right" />\
+        <van-field type="text" v-model="configs.password" label="锁屏密码" type="password" placeholder="请输入锁屏密码" input-align="right" />\
         <number-field v-model="configs.timeout_unlock" label="解锁超时时间" placeholder="请输入解锁超时时间" >\
           <template #right-icon><span>毫秒</span></template>\
         </number-field>\
@@ -147,7 +147,7 @@ Vue.component('sample-configs', function (resolve, reject) {
           <template #right-icon><span>秒</span></template>\
         </number-field>\
         <switch-cell title="是否自动授权截图权限" v-model="configs.request_capture_permission" />\
-        <van-field v-if="configs.request_capture_permission" v-model="configs.capture_permission_button" label="确定按钮文本" type="text" placeholder="请输入确定按钮文本" input-align="right" />\
+        <van-field type="text" v-if="configs.request_capture_permission" v-model="configs.capture_permission_button" label="确定按钮文本" type="text" placeholder="请输入确定按钮文本" input-align="right" />\
         <tip-block>偶尔通过captureScreen获取截图需要等待很久，或者一直阻塞无法进行下一步操作，建议开启异步等待，然后设置截图等待时间(默认500ms,需自行调试找到合适自己设备的数值)。\
           失败多次后脚本会自动重启，重新获取截图权限</tip-block>\
         <switch-cell title="是否异步等待截图" v-model="configs.async_waiting_capture" />\
@@ -205,7 +205,44 @@ Vue.component('advance-configs', function (resolve, reject) {
           bottomHeight: 200,
           warn_skipped_ignore_package: false,
           warn_skipped_too_much: false,
-          skip_running_packages: [{ packageName: 'com.tony.test', appName: 'test' }, { packageName: 'com.tony.test2', appName: 'test2' }]
+            skip_running_packages: [{ packageName: 'com.tony.test', appName: 'test' }, { packageName: 'com.tony.test2', appName: 'test2' }],
+            //===任务开关===
+            //简单的逛逛浏览任务
+            ck_simple_task: true,
+            //蚂蚁庄园喂小鸡任务
+            ck_feedchick_task: true,
+            //淘宝人生掷骰子任务
+            ck_dice_task: true,
+            //200淘金币夺宝任务
+            ck_doubao_task: true,
+            //淘宝成就的签到任务
+            ck_achievement_task: true,
+            //淘宝成就月账单任务
+            ck_achievement_month_task: true,
+            //天猫程序领红包任务
+            ck_tianmao_task: true,
+            //支付宝蚂蚁森林任务
+            ck_antforest: true,
+            //开心砖块消消乐任务
+            ck_xiaoxiaole_task: true,
+            //逛农场免费水果任务
+            ck_baba_farm_task: true,
+            //逛好店领10金币
+            ck_browse_goog_shop: true,
+            //逛好店浏览10秒任务-10秒+10
+            ck_earn_10coin: true,
+            //逛好店浏览10秒任务-收藏+10
+            ck_pat_shop: true,
+            //淘宝人生套装任务
+            ck_baba_suit_task: true,
+            //开心消消乐任务
+            ck_baba_xxl_task: true,
+            //支付宝农场任务
+            ck_baba_zhifubao_task: true,
+            //好友森林任务
+            ck_baba_friend_forest_task: true,
+            //执行期间静音
+            ck_mute_during_execution: true
         },
         validations: {
         }
@@ -297,7 +334,7 @@ Vue.component('advance-configs', function (resolve, reject) {
         <van-swipe-cell v-for="(skip,idx) in configs.skip_running_packages" :key="skip.packageName" stop-propagation>\
           <van-cell :title="skip.appName" :label="skip.packageName" />\
           <template #right>\
-            <van-button square type="danger" text="删除" @click="deleteSkipPackage(idx)" style="height: 100%"/>\
+            <van-button square type="danger" label="删除" @click="deleteSkipPackage(idx)" style="height: 100%"/>\
           </template>\
         </van-swipe-cell>\
         </div>\
@@ -308,9 +345,37 @@ Vue.component('advance-configs', function (resolve, reject) {
         <template #title>\
           <installed-package-selector @value-change="handlePackageChange" :added-package-names="addedSkipPackageNames"/>\
         </template>\
-        <van-field v-model="newSkipRunningAppName" placeholder="请输入应用名称" label="应用名称" />\
-        <van-field v-model="newSkipRunningPackage" placeholder="请输入应用包名" label="应用包名" />\
+        <van-field type="text" v-model="newSkipRunningAppName" placeholder="请输入应用名称" label="应用名称" />\
+        <van-field type="text" v-model="newSkipRunningPackage" placeholder="请输入应用包名" label="应用包名" />\
       </van-dialog>\
+      <van-divider content-position="left">\
+        任务开关\
+      </van-divider>\
+      <van-cell-group>\
+            <switch-cell title="简单的逛逛浏览任务" v-model="configs.ck_simple_task" />\
+            <switch-cell title="蚂蚁庄园喂小鸡任务" v-model="configs.ck_feedchick_task" />\
+            <switch-cell title="淘宝人生掷骰子任务" v-model="configs.ck_dice_task" />\
+            <switch-cell title="200淘金币夺宝任务" v-model="configs.ck_doubao_task" />\
+            <switch-cell title="淘宝成就的签到任务" v-model="configs.ck_achievement_task" />\
+            <switch-cell title="淘宝成就月账单任务" v-model="configs.ck_achievement_month_task" />\
+            <switch-cell title="天猫程序领红包任务" v-model="configs.ck_tianmao_task" />\
+            <switch-cell title="支付宝蚂蚁森林任务" v-model="configs.ck_antforest" />\
+            <switch-cell title="开心砖块消消乐任务" v-model="configs.ck_xiaoxiaole_task" />\
+            <switch-cell title="逛农场免费水果任务" v-model="configs.ck_baba_farm_task" />\
+            <switch-cell title="逛好店浏览10秒任务" v-model="configs.ck_browse_goog_shop" />\
+            <switch-cell title="逛好店浏览10秒任务-10秒+10" v-model="configs.ck_earn_10coin" />\
+            <switch-cell title="逛好店浏览10秒任务-收藏+10" v-model="configs.ck_pat_shop" />\
+            <switch-cell title="淘宝人生套装任务" v-model="configs.ck_baba_suit_task" />\
+            <switch-cell title="开心消消乐任务" v-model="configs.ck_baba_xxl_task" />\
+            <switch-cell title="支付宝农场任务" v-model="configs.ck_baba_zhifubao_task" />\
+            <switch-cell title="好友森林任务" v-model="configs.ck_baba_friend_forest_task" />\
+       </van-cell-group>\
+       <van-divider content-position="left">\
+        执行配置\
+      </van-divider>\
+      <van-cell-group>\
+            <switch-cell title="执行期间静音" v-model="configs.ck_mute_during_execution" />\
+      </van-cell-group>\
     </div>'
   })
 })
@@ -323,7 +388,36 @@ Vue.component('widget-configs', function (resolve, reject) {
     mixins: [mixin_common],
     data: function () {
       return {
-        configs: {
+          configs: {
+              //===关键字===
+              //任务执行按钮关键字
+              txt_btn_reg_str: "去完成|去施肥|去领取|去浏览|去逛逛|去消除|去看看",
+              //任务列表界面关键字
+              txt_task_list_ui_reg: "做任务赚金币",
+              //简单浏览任务关键字
+              txt_simple_task_reg_str: "浏览1|逛1|浏览抽|浏览得能|逛聚划算|逛菜鸟|步数",
+              //简单任务跳过关键字
+              txt_simple_skip_reg_str: "商品同款|逛好店|去天猫APP",
+              //庄园小鸡任务关键字
+              txt_feedchick_task_reg_str: "喂小鸡",
+              //逛好店10金币关键字
+              txt_browse_goog_shop_reg_str: "逛好店",
+              //农场水果任务关键字
+              txt_baba_farm_task_reg_str: "逛农场",
+              //点掷骰子任务关键字
+              txt_dice_task_reg_str: "骰子",
+              //200淘金币夺宝关键字
+              txt_doubao_task_reg_str: "金币夺宝",
+              //淘宝成就签到关键字
+              txt_achievement_task_reg_str: "淘宝成就签到",
+              //淘宝成就月账单关键字
+              txt_achievement_month_reg_str: "淘宝成就月账单",
+              //蚂蚁森林任务关键字
+              txt_antforest_reg_str: "蚂蚁森林",
+              //天猫领红包任务关键字
+              txt_tianmao_task_reg_str: "去天猫APP领红包",
+              //开心消消乐任务关键字
+              txt_xiaoxiaole_task_reg_str: "消除"
         },
       }
     },
@@ -345,8 +439,24 @@ Vue.component('widget-configs', function (resolve, reject) {
       $app.registerFunction('saveWidgetConfigs', this.saveConfigs)
       $app.registerFunction('reloadWidgetConfigs', this.loadConfigs)
     },
-    template: '<div>\
-      控件信息配置\
+      template: '<div>\
+     <van-divider content-position="left">关键字配置</van-divider>\
+        <van-cell-group>\
+            <van-field type="text" label="任务执行按钮" v-model="configs.txt_btn_reg_str" />\
+            <van-field type="text" label="任务列表界面" v-model="configs.txt_task_list_ui_reg" />\
+            <van-field type="text" label="简单浏览任务" v-model="configs.txt_simple_task_reg_str" />\
+            <van-field type="text" label="简单任务跳过" v-model="configs.txt_simple_skip_reg_str" />\
+            <van-field type="text" label="庄园小鸡任务" v-model="configs.txt_feedchick_task_reg_str" />\
+            <van-field type="text" label="逛好店10金币" v-model="configs.txt_browse_goog_shop_reg_str" />\
+            <van-field type="text" label="农场水果任务" v-model="configs.txt_baba_farm_task_reg_str" />\
+            <van-field type="text" label="点掷骰子任务" v-model="configs.txt_dice_task_reg_str" />\
+            <van-field type="text" label="200淘金币夺宝" v-model="configs.txt_doubao_task_reg_str" />\
+            <van-field type="text" label="淘宝成就签到" v-model="configs.txt_achievement_task_reg_str" />\
+            <van-field type="text" label="淘宝成就月账单" v-model="configs.txt_achievement_month_reg_str" />\
+            <van-field type="text" label="蚂蚁森林任务" v-model="configs.txt_antforest_reg_str" />\
+            <van-field type="text" label="天猫领红包任务" v-model="configs.txt_tianmao_task_reg_str" />\
+            <van-field type="text" label="开心消消乐任务" v-model="configs.txt_xiaoxiaole_task_reg_str" />\
+       </van-cell-group>\
     </div>'
   })
 })
