@@ -271,12 +271,12 @@ function AntCreditsExecutor() {
     function browse_goodshop_task(not_key_reg_str) {
         toast_console('查看-逛好店并领10金币任务')
         if (!assure_click_task(input_value(config.txt_browse_goog_shop_reg_str))) return
-        for (let i = 0; i < 11 && config.is_earn_10coin; i++) {
+        for (let i = 0; i < 11 && config.ck_earn_10coin; i++) {
             let btn_x = desc('逛10秒+10').findOne(2000)
             toast_console('逛10秒+10金币/' + (i + 1))
             if (!btn_x) break
             btn_x.parent().click(); sleep(13000);
-            if (config.is_pat_shop) {
+            if (config.ck_pat_shop) {
                 tn_x = textContains('+10').findOne(800)
                 if (btn_x) {
                     btn_click(btn_x.parent()); sleep(800)
