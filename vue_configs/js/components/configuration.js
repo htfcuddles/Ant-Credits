@@ -207,6 +207,8 @@ Vue.component('advance-configs', function (resolve, reject) {
           warn_skipped_too_much: false,
             skip_running_packages: [{ packageName: 'com.tony.test', appName: 'test' }, { packageName: 'com.tony.test2', appName: 'test2' }],
             //===任务开关===
+            //每日领红包签到任务
+            ck_envelope_task: true,
             //简单的逛逛浏览任务
             ck_simple_task: true,
             //蚂蚁庄园喂小鸡任务
@@ -352,6 +354,7 @@ Vue.component('advance-configs', function (resolve, reject) {
         任务开关\
       </van-divider>\
       <van-cell-group>\
+            <switch-cell title="每日领红包签到任务" v-model="configs.ck_envelope_task" />\
             <switch-cell title="简单的逛逛浏览任务" v-model="configs.ck_simple_task" />\
             <switch-cell title="蚂蚁庄园喂小鸡任务" v-model="configs.ck_feedchick_task" />\
             <switch-cell title="淘宝人生掷骰子任务" v-model="configs.ck_dice_task" />\
@@ -395,9 +398,9 @@ Vue.component('widget-configs', function (resolve, reject) {
               //任务列表界面关键字
               txt_task_list_ui_reg: "做任务赚金币",
               //简单浏览任务关键字
-              txt_simple_task_reg_str: "浏览1|逛1|浏览抽|浏览得能|逛聚划算|逛菜鸟|步数|浏览心",
+              txt_simple_task_reg_str: "^浏|^逛|步数    ",
               //简单任务跳过关键字
-              txt_simple_skip_reg_str: "商品同款|逛好店|去天猫APP",
+              txt_simple_skip_reg_str: "逛农场|逛好店|天猫APP|消消乐|逛街",
               //庄园小鸡任务关键字
               txt_feedchick_task_reg_str: "喂小鸡",
               //逛好店10金币关键字

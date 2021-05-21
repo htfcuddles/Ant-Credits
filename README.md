@@ -25,3 +25,6 @@
 
   **v1.0.1** 2021年5月10日11:42:00
  1. 代码同步 https://github.com/JavisPeng/taojinbi v1.6.8
+
+   **v1.0.2** 2021年5月22日00:41:00
+ 1. 代码同步 https://github.com/JavisPeng/taojinbi v1.6.10

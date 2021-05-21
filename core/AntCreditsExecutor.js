@@ -73,9 +73,10 @@ function AntCreditsExecutor() {
     }
 
     //等待sec秒，有完成提示后立即返回
-    function wait(sec) {
+    function wait(sec, title) {
         let t_sec = sec
         let pre_num = 0  //[浏览以下商品]的所在组控件数有时会变化
+        slide_down = title && title.indexOf('精选') > -1
         while (sec--) {
             let a1 = textMatches('点我领取奖励|任务已完成快去领奖吧|任务完成|任务已完成|任务已经|任务已经全部完成啦').findOne(10)
             let cur_num = get_group_count()
@@ -85,8 +86,8 @@ function AntCreditsExecutor() {
                 toast_console('到时立即返回')
                 return true
             }
-            if (sec <= t_sec - 2 && textContains('下滑浏览商品').findOne(100)) {
-                swipe(device.width * 0.5, device.height * 0.7, device.width * 0.5, device.height * 0.5, 800)
+            if (sec <= t_sec - 2 && slide_down) {
+                swipe(device.width * 0.5, device.height * 0.75, device.width * 0.5, device.height * 0.5, 800)
             }
         }
         toast_console('等待' + t_sec + 's返回');
@@ -291,10 +292,15 @@ function AntCreditsExecutor() {
         toast_console('查看-去天猫APP领红包任务')
         if (!assure_click_task(input_value(config.txt_tianmao_task_reg_str))) return
         sleep(4000)
-        if (text('攻略').findOne(4000)) {
+
+        if (text('打开手机天猫APP').findOne(1500)) {
+            back(); sleep(1500); back(); wait(wait_sec)
+        }
+        else if (text('攻略').findOne(4000)) {
             btn_click(textContains('继续逛逛').findOne(1000))
             wait(wait_sec)
         }
+
         assure_back(input_value(config.txt_task_list_ui_reg)); get_rewards(true)
     }
 
@@ -305,7 +311,7 @@ function AntCreditsExecutor() {
         console.hide(); sleep(13000);
         //去他大爷的神秘礼物
         toast_console('掷骰子任务-查看是否有神秘礼物(QTM的神秘礼盒)', true)
-        cs_click(5, '#ffffff', 0.2, 0.1, 0.6, 0.6, true);
+        cs_click(5, '#e9e9e9', 0.2, 0.1, 0.6, 0.6, true);
         //单击礼包
         toast_console('掷骰子任务-查看是否有礼包(QTM的礼包)', true)
         cs_click(3, '#fee998', 0.2, 0.2, 0.7, 0.8);
@@ -414,7 +420,7 @@ function AntCreditsExecutor() {
                 console.log('继续执行简单浏览任务'); continue
             }
             obj.x.click();
-            wait(sec)
+            wait(sec, obj.txt)
             let num = 8
             while (num-- && !text(back_reg).findOne(1000)) {
                 if (obj.txt.indexOf('充值金') > -1) {
@@ -433,14 +439,12 @@ function AntCreditsExecutor() {
     //进入到淘金币列表界面
     function get_into_taojinbi_task_list() {
         let task_list_ui_reg = input_value(config.txt_task_list_ui_reg)
-        toast_console('启动淘宝app')
-        app.launch(_package_name); sleep(1500)
         if (!text(task_list_ui_reg).findOne(2000)) {
             let num = 8
             while (num-- && !desc('领淘金币').findOne(1000)) back();
             let btn_x = desc('领淘金币').findOne(500)
             if (!btn_x) {
-                toast_console('无法返回到淘宝主界面,请手动回到淘宝主界面后重新运行'); exit()
+                toast_console('请手动回到我的淘宝主界面后重新运行'); exit()
             }
             btn_x.click(); toast_console('进入到淘金币主界面..'); sleep(2000)
             for (let i = 0; i < 6; i++) {
@@ -456,12 +460,30 @@ function AntCreditsExecutor() {
         toast_console('进入到淘金币列表界面..'); textMatches('每日来访领能量.+').findOne(6000);
     }
 
+    //红包签到
+    function do_envelope_signin() {
+        let btn = desc('红包签到').findOne(1000)
+        if (btn) {
+            btn.click(); sleep(3000); back()
+        }
+    }
+
+    //启动淘宝并进入到我的界面
+    function enter_mine() {
+        toast_console('启动淘宝app')
+        app.launch('com.taobao.taobao'); sleep(1500)
+        btn_click(desc('我的淘宝').findOne(2000)); sleep(1000)
+    }
 
     function taojinbi_task() {
         let simple_task_reg_str = input_value(config.txt_simple_task_reg_str)
         let task_list_ui_reg = input_value(config.txt_task_list_ui_reg)
         for (let i = 0; i < MAX_ALL_TASK_EPOCH; i++) {
             toast_console("#第" + (i + 1) + "次执行全任务")
+            enter_mine()
+            if (config.ck_envelope_task) {
+                do_envelope_signin()
+            }
             get_into_taojinbi_task_list()
             if (config.ck_simple_task) {
                 do_simple_task(MAX_EPOCH, wait_sec, simple_task_reg_str, task_list_ui_reg, true)
@@ -539,7 +561,7 @@ function AntCreditsExecutor() {
             requestScreenCapture(false);
             app.launch('com.taobao.taobao');
             if (!text('亲密度').findOne(1000)) {
-                //btn_assure_click(desc('我的淘宝').findOne(3000))
+                btn_assure_click(desc('我的淘宝').findOne(3000))
                 let btn_x = desc('芭芭农场').findOne(3000)
                 if (!btn_x) {
                     toast_console('无法进入芭芭农场主界面,请手动回到淘宝主界面后重新运行'); exit()
